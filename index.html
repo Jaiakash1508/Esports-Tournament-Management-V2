@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIT League — Esports Tournament Manager</title>
+<meta name="description" content="A college esports league demo for team registration, match scheduling, score reporting, and standings.">
+<meta name="theme-color" content="#0B0B0D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<section class="login-screen" id="login-screen" hidden>
+  <div class="login-card">
+    <div class="brand" style="margin-bottom:22px"><span class="brand-mark">M</span> MIT League</div>
+    <div id="login-role-picker">
+      <h1>Choose your login</h1>
+      <p>Sign in with the access for your tournament role.</p>
+      <div class="login-roles">
+        <button class="login-role-btn" type="button" data-login-role="ADMIN"><strong>Admin Login</strong><span>Manage teams, matches and scores</span></button>
+        <button class="login-role-btn" type="button" data-login-role="CAPTAIN"><strong>Team Login</strong><span>View fixtures, scores and results</span></button>
+        <button class="login-role-btn" type="button" data-login-role="REGISTER"><strong>Register Team</strong><span>Submit a team and player roster</span></button>
+      </div>
+      <div class="login-note" id="login-mode-note">Choose a role to continue.</div>
+    </div>
+    <form id="login-form" hidden>
+      <button class="login-back" id="login-back" type="button">← Choose another role</button>
+      <h1 id="login-heading">Admin Login</h1>
+      <p id="login-description">Sign in to manage the tournament.</p>
+      <div class="field"><label for="login-username">Username</label><input id="login-username" autocomplete="username" readonly required></div>
+      <div class="field"><label for="login-password">Password</label><div class="password-input"><input id="login-password" type="password" autocomplete="current-password" required><button class="password-toggle" id="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></div></div>
+      <button class="submit-btn" type="submit">Sign in</button>
+      <div class="login-error" id="login-error" role="status" aria-live="polite"></div>
+      <div class="login-note" id="login-note">Local demo accounts: admin / admin123 and captain / captain123.</div>
+    </form>
+  </div>
+</section>
+
+<div id="tournament-app" hidden>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand"><span class="brand-mark">M</span> MIT League</div>
+    <nav class="links">
+      <a href="#register">Register</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#leaderboard">Leaderboard</a>
+    </nav>
+    <button class="nav-cta" onclick="document.getElementById('register').scrollIntoView()">Register a team</button>
+    <div class="session-controls" id="session-controls" hidden><span id="user-badge"></span><button id="logout-btn" type="button">Sign out</button></div>
+    <button class="menu-btn" id="menu-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-links">☰</button>
+    <nav class="mobile-links" id="mobile-links" aria-label="Mobile navigation">
+      <a href="#register">Register</a><a href="#schedule">Schedule</a><a href="#leaderboard">Leaderboard</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">MIT Fall Championship · Open now <span class="storage-badge" id="storage-mode">Connecting to tournament data…</span></div>
+      <h1>One place to run MIT's esports league.</h1>
+      <p class="lede" id="hero-lede">Register your dorm or club team, publish the match schedule, report scores, and watch the standings update automatically — no spreadsheets required.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#register">Register a team</a>
+        <a class="btn-ghost" href="#leaderboard">View standings</a>
+      </div>
+    </div>
+    <div class="rank-device">
+      <div class="label">CURRENTLY LEADING</div>
+      <div class="rank-row">
+        <span class="rank-number">01</span>
+        <div>
+          <div class="rank-team" id="hero-leader-name">Beaver Circuit</div>
+          <div class="rank-sub" id="hero-leader-sub">3–0 · 9 pts</div>
+        </div>
+      </div>
+      <div class="mini-standings" id="hero-mini-standings">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="register">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Register a team</h2>
+        <p>Add your team and player roster. Once registered, your team name will appear in the tournament directory.</p>
+      </div>
+      <span class="tag">Registrable</span>
+    </div>
+
+    <div class="register-grid">
+      <div class="card">
+        <form id="register-form">
+          <div class="field">
+            <label for="team-name">Team name</label>
+            <input id="team-name" type="text" placeholder="e.g. Beaver Circuit" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="college">Dorm / Club</label>
+              <input id="college" type="text" placeholder="e.g. Baker House" required>
+            </div>
+            <div class="field">
+              <label for="game">Game</label>
+              <select id="game" required>
+                <option value="" disabled selected>Select a game</option>
+                <option>Valorant</option>
+                <option>League of Legends</option>
+                <option>Rocket League</option>
+                <option>CS2</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="captain">Captain name</label>
+            <input id="captain" type="text" placeholder="e.g. Priya Nair" required>
+          </div>
+          <div class="field">
+            <label for="roster-size">Roster size</label>
+            <input id="roster-size" type="number" min="1" max="10" value="5" required>
+          </div>
+          <div class="field">
+            <label for="roster-members">Player names <span style="font-weight:400">(optional, one per line; captain is added separately)</span></label>
+            <textarea id="roster-members" rows="3" placeholder="Player 2&#10;Player 3" style="width:100%;resize:vertical;background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:7px;padding:11px 12px;font:14.5px 'Inter',sans-serif"></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Register team</button>
+          <div class="form-note" id="form-note">Teams are added instantly and become eligible for scheduling right away.</div>
+        </form>
+      </div>
+
+      <div class="card" id="team-directory-card">
+        <div class="label" id="team-directory-title" style="color:var(--muted); font-size:13.5px; font-weight:600; margin-bottom:14px;">REGISTERED TEAMS (<span id="team-count">0</span>)</div>
+        <div class="roster-list" id="roster-list">
+          <div class="empty-state">No teams registered yet — the first one you add will appear here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Match schedule</h2>
+        <p id="schedule-description">Pick two registered teams to schedule a match. Once a match is played, report the score to update the standings automatically.</p>
+      </div>
+      <span class="tag" id="schedule-capability">Scorable</span>
+    </div>
+
+    <div class="schedule-toolbar" id="schedule-admin-controls">
+      <div class="field">
+        <label for="match-team-a">Team A</label>
+        <select id="match-team-a"></select>
+      </div>
+      <div class="field">
+        <label for="match-team-b">Team B</label>
+        <select id="match-team-b"></select>
+      </div>
+      <button class="add-match-btn" id="add-match-btn">Schedule match</button>
+      <div class="schedule-note" id="schedule-note" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="match-list" id="match-list">
+      <div class="empty-state">No matches scheduled yet — register at least two teams to get started.</div>
+    </div>
+    <div class="history-panel" aria-live="polite">
+      <h3>Recent match activity</h3>
+      <div class="history-list" id="history-list"><div class="empty-state" style="padding:12px">Match changes will appear here.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="leaderboard" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Standings</h2>
+        <p>Rankings update the moment a match score is reported — three points for a win, one each for a draw.</p>
+      </div>
+      <span class="tag">Rankable</span>
+    </div>
+
+    <div class="board-tools">
+      <button class="tool-btn" id="export-btn" type="button">Download standings CSV</button>
+      <button class="tool-btn" id="reset-btn" type="button">Reset demo data</button>
+    </div>
+
+    <div class="board" id="board">
+      <div class="board-row head">
+        <div>#</div>
+        <div>Team</div>
+        <div class="num">P</div>
+        <div class="num">W</div>
+        <div class="num">D</div>
+        <div class="num pts">PTS</div>
+      </div>
+      <div id="board-body">
+        <div class="empty-state" style="padding: 26px;">Standings will appear once teams are registered.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="brand-mark">M</span> MIT League</div>
+    <p>MIT League · Java, JDBC, and SQLite coursework project</p>
+  </div>
+</footer>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
