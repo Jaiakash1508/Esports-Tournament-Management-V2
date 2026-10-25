@@ -1,0 +1,48 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0" version="24.7.17" type="device">
+  <diagram id="mit-league-dfd" name="Data Flow Diagram">
+    <mxGraphModel dx="1170" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="admin" value="Admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="50" y="90" width="130" height="50" as="geometry" /></mxCell>
+        <mxCell id="captain" value="Captain / Team" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="50" y="220" width="130" height="50" as="geometry" /></mxCell>
+        <mxCell id="registrant" value="Team registrant" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1"><mxGeometry x="50" y="350" width="130" height="50" as="geometry" /></mxCell>
+        <mxCell id="gui" value="Web GUI&#xa;HTML / CSS / JavaScript" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="280" y="210" width="180" height="90" as="geometry" /></mxCell>
+        <mxCell id="server" value="Java HTTP server&#xa;Authentication and role validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1"><mxGeometry x="550" y="210" width="220" height="90" as="geometry" /></mxCell>
+        <mxCell id="db" value="Tournament database&#xa;SQLite / MySQL" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="870" y="210" width="170" height="90" as="geometry" /></mxCell>
+        <mxCell id="e1" value="Manage tournament" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="admin" target="gui"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" value="View schedule and results" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="captain" target="gui"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" value="Submit team registration" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="registrant" target="gui"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" value="Same-origin JSON API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="gui" target="server"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" value="JDBC transaction: state and history" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="server" target="db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" value="Tournament state" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="db" target="server"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="mit-league-use-cases" name="Use Case Diagram">
+    <mxGraphModel dx="1170" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="system" value="MIT League — Esports Tournament Management" style="swimlane;whiteSpace=wrap;html=1;startSize=30;rounded=0;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1"><mxGeometry x="300" y="40" width="720" height="570" as="geometry" /></mxCell>
+        <mxCell id="adminActor" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1"><mxGeometry x="80" y="145" width="60" height="110" as="geometry" /></mxCell>
+        <mxCell id="captainActor" value="Captain / Team" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1"><mxGeometry x="80" y="325" width="60" height="110" as="geometry" /></mxCell>
+        <mxCell id="registerActor" value="Team registrant" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1"><mxGeometry x="1030" y="325" width="60" height="110" as="geometry" /></mxCell>
+        <mxCell id="ucRegister" value="Register team and roster" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="350" y="100" width="220" height="60" as="geometry" /></mxCell>
+        <mxCell id="ucSchedule" value="Schedule match" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="650" y="100" width="220" height="60" as="geometry" /></mxCell>
+        <mxCell id="ucScore" value="Report or update score" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="350" y="220" width="220" height="60" as="geometry" /></mxCell>
+        <mxCell id="ucCancel" value="Cancel match" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="650" y="220" width="220" height="60" as="geometry" /></mxCell>
+        <mxCell id="ucView" value="View schedule, results, standings" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="500" y="350" width="250" height="60" as="geometry" /></mxCell>
+        <mxCell id="ucExport" value="Export standings CSV" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="500" y="470" width="250" height="60" as="geometry" /></mxCell>
+        <mxCell id="a1" style="endArrow=none;html=1;" edge="1" parent="1" source="adminActor" target="ucRegister"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a2" style="endArrow=none;html=1;" edge="1" parent="1" source="adminActor" target="ucSchedule"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a3" style="endArrow=none;html=1;" edge="1" parent="1" source="adminActor" target="ucScore"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a4" style="endArrow=none;html=1;" edge="1" parent="1" source="adminActor" target="ucCancel"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a5" style="endArrow=none;html=1;" edge="1" parent="1" source="adminActor" target="ucExport"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a6" style="endArrow=none;html=1;" edge="1" parent="1" source="captainActor" target="ucView"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="a7" style="endArrow=none;html=1;" edge="1" parent="1" source="registerActor" target="ucRegister"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
